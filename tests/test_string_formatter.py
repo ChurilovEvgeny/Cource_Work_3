@@ -1,6 +1,43 @@
 import pytest
-
 import src.string_formatter as sf
+
+
+def test_format_operations():
+    ls = []
+    ls.append({
+        "id": 957763565,
+        "state": "EXECUTED",
+        "date": "2019-01-05T00:52:30.108534",
+        "operationAmount": {
+            "amount": "87941.37",
+            "currency": {
+                "name": "руб.",
+                "code": "RUB"
+            }
+        },
+        "description": "Перевод с карты на счет",
+        "from": "MasterCard 8847384717023026",
+        "to": "Счет 18889008294666828266"
+    })
+
+    ls.append({
+        "id": 422035015,
+        "state": "EXECUTED",
+        "date": "2019-05-06T00:17:42.736209",
+        "operationAmount": {
+            "amount": "16796.95",
+            "currency": {
+                "name": "USD",
+                "code": "USD"
+            }
+        },
+        "description": "Перевод организации",
+        "from": "Счет 72645194281643232984",
+        "to": "Счет 95782287258966264115"
+    })
+
+    formated_operations = sf.format_operations(ls)
+    assert len(formated_operations) == 2
 
 
 def test_format_single_operation():
@@ -37,6 +74,8 @@ def test_format_card_or_account():
     assert sf.format_card_or_account("MasterCard 6783917276771847") == "MasterCard 6783 91** **** 1847"
     assert sf.format_card_or_account("Maestro 1308795367077170") == "Maestro 1308 79** **** 7170"
     assert sf.format_card_or_account("Счет 46878338893256147528") == "Счет **7528"
+    with pytest.raises(ValueError):
+        sf.format_card_or_account("AnyData")
 
 
 def test_format_card():
