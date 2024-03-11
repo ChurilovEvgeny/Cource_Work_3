@@ -15,11 +15,14 @@ def test_format_single_operation():
                 "code": "RUB"
             }
         },
-        "description": "Перевод со счета на счет",
-        "from": "Счет 46363668439560358409",
+        "description": "Перевод с карты на счет",
+        "from": "MasterCard 8847384717023026",
         "to": "Счет 18889008294666828266"
     }
-    assert True
+    s = sf.format_single_operation(d)
+    assert s == ("05.01.2019 Перевод с карты на счет\n"
+                 "MasterCard 8847 38** **** 3026 -> Счет **8266\n"
+                 "87941.37 руб.")
 
 
 def test_format_date():

@@ -16,13 +16,12 @@ def format_single_operation(operation: dict) -> str:
     date = format_date(operation["date"])
     transfer_from = format_card_or_account(operation["from"])
     transfer_to = format_card_or_account(operation["to"])
-    amount = format_amount(operation["amount"], operation["currency"])
+    operation_amount = operation["operationAmount"]
+    amount = format_amount(operation_amount["amount"], operation_amount["currency"])
 
-    s = (f"{date} {operation["description"]}\n"
+    return (f"{date} {operation["description"]}\n"
          f"{transfer_from} -> {transfer_to}\n"
          f"{amount}")
-
-    return s
 
 
 def format_date(date: str) -> str:
