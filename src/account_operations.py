@@ -11,8 +11,18 @@ KEY_DESCRIPTION = "description"
 
 TRANSLATE_FIND_WORD = "ПЕРЕВОД"
 
+
 def get_formatted_last_executed_operations(json_file_path: str) -> str:
     pass
+
+
+def get_last_n_executed_transfer_operations(json_file_path: str, n: int = 5):
+    if n < 0:
+        raise ValueError("The number of operations (n) cannot be less than zero")
+
+    ls = leave_only_executed_transfer_operations(load_json(json_file_path))
+    sort_operations_by_datetime(ls)
+    return ls[:n]
 
 
 def load_json(json_file_path: str) -> list:
@@ -26,7 +36,6 @@ def load_json(json_file_path: str) -> list:
 
 
 def leave_only_executed_transfer_operations(ls: list) -> list:
-
     # Так как нет отдельного служебного поля для однозначного поиска типа операции,
     # то приходится искать нужную операцию по косвенному признаку
     # наличия слова "перевод" в описании операции
@@ -36,24 +45,7 @@ def leave_only_executed_transfer_operations(ls: list) -> list:
 
 
 def sort_operations_by_datetime(ls: list) -> None:
-    
     # Дата в iso формате обладает таким интересным свойством,
     # что ее не надо переводить в тип datetime через datetime.fromisoformat(),
     # а можно сортировать непосредственно в типе str
     ls.sort(key=lambda x: x[KEY_DATE], reverse=True)
-
-
-# ls = load_json("../test_files/operations.json")
-# print(len(ls))
-# ls = leave_only_executed_operations(ls)
-# print(len(ls))
-#
-# sort_operations_by_datetime(ls)
-# print(len(ls))
-# #
-# datee = "2019-08-26T10:50:58.294041"
-# datetime_str = '09/19/22 13:55:26'
-#
-# tt = datetime.fromisoformat(datee)
-# datetime_object = datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
-# datetime_object = datetime.strptime(datetime_str, '%Y-%d-%mT%H:%M:%S.%ms')

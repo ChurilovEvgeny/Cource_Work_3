@@ -52,3 +52,11 @@ def test_sort_operations_by_datetime():
     assert dt[0][ac.KEY_DATE] == "2019-08-13T18:51:29.313309"
     assert dt[1][ac.KEY_DATE] == "2019-07-13T18:51:29.313309"
     assert dt[2][ac.KEY_DATE] == "2018-03-09T23:57:37.537412"
+
+
+def test_get_last_n_executed_transfer_operations():
+    assert len(ac.get_last_n_executed_transfer_operations("operations.json")) == 5
+    assert len(ac.get_last_n_executed_transfer_operations("operations.json", 0)) == 0
+    assert len(ac.get_last_n_executed_transfer_operations("operations.json", 1)) == 1
+    with pytest.raises(ValueError):
+        ac.get_last_n_executed_transfer_operations("operations.json", -1)
