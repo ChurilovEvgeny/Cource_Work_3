@@ -24,7 +24,7 @@ def data_leave_only_executed_transfer_operations():
 
 
 def test_load_json_to_dict():
-    assert len(ac.load_json("operations.json")) > 0
+    assert len(ac.load_json("../test_files/operations.json")) > 0
     with pytest.raises(FileNotFoundError):
         ac.load_json("file_not_exist.json")
 
@@ -55,8 +55,8 @@ def test_sort_operations_by_datetime():
 
 
 def test_get_last_n_executed_transfer_operations():
-    assert len(ac.get_last_n_executed_transfer_operations("operations.json")) == 5
-    assert len(ac.get_last_n_executed_transfer_operations("operations.json", 0)) == 0
-    assert len(ac.get_last_n_executed_transfer_operations("operations.json", 1)) == 1
+    assert len(ac.get_last_n_executed_transfer_operations("../test_files/operations.json")) == 5
+    assert len(ac.get_last_n_executed_transfer_operations("../test_files/operations.json", 0)) == 0
+    assert len(ac.get_last_n_executed_transfer_operations("../test_files/operations.json", 1)) == 1
     with pytest.raises(ValueError):
-        ac.get_last_n_executed_transfer_operations("operations.json", -1)
+        ac.get_last_n_executed_transfer_operations("../test_files/operations.json", -1)
