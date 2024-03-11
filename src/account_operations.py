@@ -1,8 +1,7 @@
 import json
 from datetime import datetime
 
-PAYMENT_SYSTEMS = ("maestro", "mastercard", "visa", "мир")
-ACCOUNT = ("счет", "счёт")
+
 EXECUTED_OPERATION = "EXECUTED"
 
 KEY_STATE = "state"
