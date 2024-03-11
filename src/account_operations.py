@@ -7,6 +7,9 @@ EXECUTED_OPERATION = "EXECUTED"
 
 KEY_STATE = "state"
 KEY_DATE = "date"
+KEY_DESCRIPTION = "description"
+
+TRANSLATE_FIND_WORD = "ПЕРЕВОД"
 
 def get_formatted_last_executed_operations(json_file_path: str) -> str:
     pass
@@ -22,8 +25,14 @@ def load_json(json_file_path: str) -> list:
         return json.load(json_file)
 
 
-def leave_only_executed_operations(ls: list) -> list:
-    return [item for item in ls if item.get(KEY_STATE, "").upper() == EXECUTED_OPERATION]
+def leave_only_executed_transfer_operations(ls: list) -> list:
+
+    # Так как нет отдельного служебного поля для однозначного поиска типа операции,
+    # то приходится искать нужную операцию по косвенному признаку
+    # наличия слова "перевод" в описании операции
+    return [item for item in ls if
+            item.get(KEY_STATE, "").upper() == EXECUTED_OPERATION and
+            TRANSLATE_FIND_WORD in item.get(KEY_DESCRIPTION, "").upper()]
 
 
 def sort_operations_by_datetime(ls: list) -> None:

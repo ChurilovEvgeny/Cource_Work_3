@@ -4,10 +4,15 @@ import src.account_operations as ac
 
 
 @pytest.fixture
-def data_leave_only_executed_operations():
+def data_leave_only_executed_transfer_operations():
     return [
         {
             "state": "EXECUTED",
+            "description": "Перевод организации",
+        },
+        {
+            "state": "EXECUTED",
+            "description": "Открытие вклада",
         },
         {
             "state": "CANCELED",
@@ -24,9 +29,11 @@ def test_load_json_to_dict():
         ac.load_json("file_not_exist.json")
 
 
-def test_leave_only_executed_operations(data_leave_only_executed_operations):
-    assert len(ac.leave_only_executed_operations([])) == 0
-    assert len(ac.leave_only_executed_operations(data_leave_only_executed_operations)) == 1
+def test_leave_only_executed_transfer_operations(data_leave_only_executed_transfer_operations):
+    assert len(ac.leave_only_executed_transfer_operations([])) == 0
+    dt = ac.leave_only_executed_transfer_operations(data_leave_only_executed_transfer_operations)
+    assert len(dt) == 1
+    assert dt[0][ac.KEY_DESCRIPTION] == "Перевод организации"
 
 
 def test_sort_operations_by_datetime():
