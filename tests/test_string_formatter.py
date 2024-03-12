@@ -74,6 +74,8 @@ def test_format_card_or_account():
     assert sf.format_card_or_account("MasterCard 6783917276771847") == "MasterCard 6783 91** **** 1847"
     assert sf.format_card_or_account("Maestro 1308795367077170") == "Maestro 1308 79** **** 7170"
     assert sf.format_card_or_account("Счет 46878338893256147528") == "Счет **7528"
+    with pytest.raises(ValueError):
+        sf.format_card_or_account("AnyData")
 
 
 def test_format_card():
