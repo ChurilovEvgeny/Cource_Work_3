@@ -60,3 +60,14 @@ def test_get_last_n_executed_transfer_operations():
     assert len(ac.get_last_n_executed_transfer_operations("test_files/operations.json", 1)) == 1
     with pytest.raises(ValueError):
         ac.get_last_n_executed_transfer_operations("test_files/operations.json", -1)
+
+
+def test_get_formatted_last_executed_operations():
+    formatted_string = ac.get_formatted_last_executed_operations("test_files/operations.json", 2)
+    assert formatted_string == """07.12.2019 Перевод организации
+Visa Classic 2842 87** **** 9012 -> Счет **3655
+48150.39 USD
+
+19.11.2019 Перевод организации
+Maestro 7810 84** **** 5568 -> Счет **2869
+30153.72 руб."""
