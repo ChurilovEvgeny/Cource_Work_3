@@ -1,4 +1,5 @@
 import datetime
+import src.account_operations_json_keys as json_keys
 
 PAYMENT_SYSTEMS = ("maestro", "mastercard", "visa", "мир")
 ACCOUNT = ("счет", "счёт")
@@ -25,13 +26,13 @@ def format_single_operation(operation: dict) -> str:
         :param operation: Словарь с данными операции
         :return: форматированная строка с данными операции
         """
-    date = format_date(operation["date"])
-    transfer_from = format_card_or_account(operation["from"])
-    transfer_to = format_card_or_account(operation["to"])
-    operation_amount = operation["operationAmount"]
-    amount = format_amount(operation_amount["amount"], operation_amount["currency"])
+    date = format_date(operation[json_keys.KEY_DATE])
+    transfer_from = format_card_or_account(operation[json_keys.KEY_FROM])
+    transfer_to = format_card_or_account(operation[json_keys.KEY_TO])
+    operation_amount = operation[json_keys.KEY_OPERATION_AMOUNT]
+    amount = format_amount(operation_amount[json_keys.KEY_AMOUNT], operation_amount[json_keys.KEY_CURRENCY])
 
-    return (f"{date} {operation["description"]}\n"
+    return (f"{date} {operation[json_keys.KEY_DESCRIPTION]}\n"
             f"{transfer_from} -> {transfer_to}\n"
             f"{amount}")
 
@@ -98,4 +99,4 @@ def format_amount(amount: str, currency: dict) -> str:
        :param currency: словарь, содержаний ключ "name", где хранится тип валюты
        :return: Форматированная строка вида "82771.72 руб."
        """
-    return f"{amount} {currency["name"]}"
+    return f"{amount} {currency[json_keys.KEY_CURRENCY_NAME]}"

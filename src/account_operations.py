@@ -1,13 +1,7 @@
 import json
-from datetime import datetime
-
+import src.account_operations_json_keys as json_keys
 
 EXECUTED_OPERATION = "EXECUTED"
-
-KEY_STATE = "state"
-KEY_DATE = "date"
-KEY_DESCRIPTION = "description"
-
 TRANSLATE_FIND_WORD = "ПЕРЕВОД"
 
 
@@ -39,12 +33,12 @@ def leave_only_executed_transfer_operations(ls: list) -> list:
     # то приходится искать нужную операцию по косвенному признаку
     # наличия слова "перевод" в описании операции
     return [item for item in ls if
-            item.get(KEY_STATE, "").upper() == EXECUTED_OPERATION and
-            TRANSLATE_FIND_WORD in item.get(KEY_DESCRIPTION, "").upper()]
+            item.get(json_keys.KEY_STATE, "").upper() == EXECUTED_OPERATION and
+            TRANSLATE_FIND_WORD in item.get(json_keys.KEY_DESCRIPTION, "").upper()]
 
 
 def sort_operations_by_datetime(ls: list) -> None:
     # Дата в iso формате обладает таким интересным свойством,
     # что ее не надо переводить в тип datetime через datetime.fromisoformat(),
     # а можно сортировать непосредственно в типе str
-    ls.sort(key=lambda x: x[KEY_DATE], reverse=True)
+    ls.sort(key=lambda x: x[json_keys.KEY_DATE], reverse=True)
