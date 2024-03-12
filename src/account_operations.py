@@ -1,8 +1,8 @@
 import json
 import src.account_operations_json_keys as json_keys
 
-EXECUTED_OPERATION = "EXECUTED"
-TRANSLATE_FIND_WORD = "ПЕРЕВОД"
+EXECUTED_OPERATION = "executed"
+TRANSLATE_FIND_WORD = "перевод"
 
 
 def get_formatted_last_executed_operations(json_file_path: str) -> str:
@@ -33,8 +33,8 @@ def leave_only_executed_transfer_operations(ls: list) -> list:
     # то приходится искать нужную операцию по косвенному признаку
     # наличия слова "перевод" в описании операции
     return [item for item in ls if
-            item.get(json_keys.KEY_STATE, "").upper() == EXECUTED_OPERATION and
-            TRANSLATE_FIND_WORD in item.get(json_keys.KEY_DESCRIPTION, "").upper()]
+            item.get(json_keys.KEY_STATE, "").lower() == EXECUTED_OPERATION and
+            TRANSLATE_FIND_WORD in item.get(json_keys.KEY_DESCRIPTION, "").lower()]
 
 
 def sort_operations_by_datetime(ls: list) -> None:
